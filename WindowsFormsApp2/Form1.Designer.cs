@@ -48,6 +48,7 @@
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 500;
+            this.timer1.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // imgList1
             // 
@@ -67,6 +68,7 @@
             this.Controls.Add(this.picGameBoard);
             this.Name = "frmSnake";
             this.Load += new System.EventHandler(this.frmSnake_Load_1);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmSnake_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picGameBoard)).EndInit();
             this.ResumeLayout(false);
 

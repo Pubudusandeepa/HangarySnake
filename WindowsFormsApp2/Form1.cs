@@ -119,5 +119,45 @@ namespace WindowsFormsApp2
             
         }
 
+        private void frmSnake_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            switch (e.KeyCode)
+            {
+
+                case Keys.Up:
+                    direction = Direction.Up;
+                    break;
+                case Keys.Down:
+                    direction = Direction.Down;
+                    break;
+                case Keys.Left:
+                    direction = Direction.Left;
+                    break;
+                case Keys.Right:
+                    direction = Direction.Right;
+                        
+                    break;
+
+
+
+            }
+
+          
+         }
+
+        private void GameOver()
+        {
+            timer.Enabled = false;
+            MessageBox.Show("Game Over");
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            g.FillRectangle(Brushes.White, snakeXY[snakeLenght - 1].x * 35,
+                snakeXY[snakeLenght - 1].y * 35, 35, 35);
+            gameBoardField[snakeXY[snakeLenght - 1].x, snakeXY[snakeLenght - 1].y] = GameBoardField.Free;
+            picGameBoard.Refresh();
+        }
     }
 }
