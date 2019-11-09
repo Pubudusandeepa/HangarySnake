@@ -148,7 +148,7 @@ namespace WindowsFormsApp2
 
         private void GameOver()
         {
-            timer.Enabled = false;
+            timer1.Enabled = false;
             MessageBox.Show("Game Over");
         }
 
@@ -157,6 +157,69 @@ namespace WindowsFormsApp2
             g.FillRectangle(Brushes.White, snakeXY[snakeLenght - 1].x * 35,
                 snakeXY[snakeLenght - 1].y * 35, 35, 35);
             gameBoardField[snakeXY[snakeLenght - 1].x, snakeXY[snakeLenght - 1].y] = GameBoardField.Free;
+
+            //Move snake field on the position of previous one
+            for(int i = snakeLenght; i >= 1; i--)
+            {
+                snakeXY[i].x = snakeXY[i - 1].x;
+                snakeXY[i].y = snakeXY[i - 1].y;
+            }
+
+            g.DrawImage(imgList1.Images[4], snakeXY[0].x * 35, snakeXY[0].y * 35);
+
+            //Switch direction of the head
+            switch (direction)
+            {
+                case Direction.Up:
+                    snakeXY[0].y = snakeXY[0].y - 1;
+                    break;
+                case Direction.Down:
+                    snakeXY[0].y = snakeXY[0].y + 1;
+                    break;
+                case Direction.Left:
+                    snakeXY[0].x = snakeXY[0].x - 1;
+                    break;
+                case Direction.Right:
+                    snakeXY[0].x = snakeXY[0].x + 1;
+                    break;
+
+            }
+            //check if snake hit the wall
+            if(snakeXY[0].x <1 || snakeXY[0].x >10 || snakeXY[0].y < 1 || snakeXY[0].y > 10)
+            {
+                GameOver();
+                picGameBoard.Refresh();
+                return;
+            }
+
+            //check if snake hit its body
+            if(gameBoardField[snakeXY[0].x, snakeXY[0].y] == GameBoardField.Snake)
+            {
+                GameOver();
+                picGameBoard.Refresh();
+                return;
+
+            }
+            //check if snake te the bonus
+            if(gameBoardField[snakeXY[0].x, snakeXY[0].y] == GameBoardField.Bonus)
+            {
+                g.DrawImage(imgList1.Images[4], snakeXY[snakeLenght].x * 35,
+                    snakeXY[snakeLenght].y * 35);
+
+              gameBoardField[snakeXY[snakeLenght].x, snakeXY[snakeLenght].y] = GameBoardField.Snake;
+                snakeLenght++;
+
+                if (snakeLenght < 96)
+                    Bonus();
+                this.Text = "Snake - Score:" + snakeLenght;
+
+                
+
+
+            }
+            //draw the head
+            g.DrawImage(imgList1.Images[5], snakeXY[0].x * 35, snakeXY[0].y * 35);
+            gameBoardField[snakeXY[0].x, snakeXY[0].y] = GameBoardField.Snake;
             picGameBoard.Refresh();
         }
     }
